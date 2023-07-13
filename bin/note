@@ -1,0 +1,44 @@
+Người dùng (User)
+	id: số nguyên, khóa chính 
+	username: chuỗi, tên đăng nhập của người dùng
+	password: chuỗi, mật khẩu của người dùng (đã được mã hóa)
+	email: chuỗi, địa chỉ email của người dùng
+	phone: chuỗi
+	decentralize: phân quyền: 1 là admin, 2 là user bình thường, 3 là voter
+	//delete người dùng không thể delete admin, kiểm tra xem nếu là voter thì phải xóa quyền trước
+
+Cuộc bỏ phiếu (Poll)
+	id: số nguyên, khóa chính 
+	title: chuỗi, tiêu đề của cuộc bỏ phiếu
+	description: chuỗi, mô tả về cuộc bỏ phiếu
+	start_time: thời gian, thời điểm bắt đầu của cuộc bỏ phiếu
+	end_time: thời gian, thời điểm kết thúc của cuộc bỏ phiếu
+	max_choices: số nguyên, số lượng tối đa các lựa chọn trong cuộc bỏ phiếu
+	//cài đặt người được quyền tham gia bỏ phiếu (chỉ cần thay đổi quyền và lấy lên từ csdl)
+	//start_time phải bé hơn end_time
+	//delete cuộc bỏ phiếu bao gồm delete hết các lựa chọn của cuộc bỏ phiếu đó và các lá phiếu của cuộc bỏ phiếu đó
+
+Lựa chọn (Choice)
+	id: số nguyên, khóa chính 
+	poll_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Cuộc bỏ phiếu
+	content: chuỗi, nội dung của lựa chọn
+	//trước khi thêm phải check poll_id
+	//chỉ có thể delete, chỉnh sửa 1 lựa chọn trước khi cuộc bỏ phiếu diễn ra, delete lựa chọn=> maxchoice của poll phải giảm theo, phiếu bầu cho lựa chọn đó cũng phải delete
+
+Phiếu bầu (Vote)
+	id: số nguyên, khóa chính 
+	poll_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Cuộc bỏ phiếu
+	user_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Người dùng
+	choice_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Lựa chọn
+	created_at: thời gian, thời điểm bỏ phiếu
+	//!muốn delete phiếu bầu phải delete cả cuộc bỏ phiếu
+	//!!không thể sửa thông tin
+
+Kết quả bỏ phiếu (PollResult)
+	id: số nguyên, khóa chính 
+	poll_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Cuộc bỏ phiếu
+	total_votes: số nguyên, tổng số phiếu bầu cho cuộc bỏ phiếu
+	//choice_votes lưu xuống csdl dưới dạng chuỗi số (chưa xử lí)
+	choice_votes[]: mảng số nguyên, số phiếu bầu cho lựa chọn nào đó tương ứng với id của bảng choice 
+	//!!có thể xóa lịch sử=> xóa kèm cuộc bỏ phiếu
+	//!!không thể sửa

@@ -1,0 +1,36 @@
+Người dùng (User)
+	id: số nguyên, khóa chính 
+	username: chuỗi, tên đăng nhập của người dùng
+	password: chuỗi, mật khẩu của người dùng (đã được mã hóa)
+	email: chuỗi, địa chỉ email của người dùng
+	phone: chuỗi
+	decentralize: phân quyền: 1 là admin, 2 là user bình thường
+	//delete người dùng không thể delete admin, kiểm tra xem nếu là voter thì phải xóa quyền trước
+Cuộc bỏ phiếu (Poll)
+	id: số nguyên, khóa chính 
+	title: chuỗi, tiêu đề của cuộc bỏ phiếu
+	description: chuỗi, mô tả về cuộc bỏ phiếu
+	start_time: thời gian, thời điểm bắt đầu của cuộc bỏ phiếu
+	end_time: thời gian, thời điểm kết thúc của cuộc bỏ phiếu
+	max_choices: số nguyên, số lượng các lựa chọn trong cuộc bỏ phiếu
+	max_voters:số lượng người tham gia bỏ phiếu
+	
+	//start_time phải bé hơn end_time
+	//delete cuộc bỏ phiếu bao gồm delete hết các lựa chọn, voter của cuộc bỏ phiếu đó và các lá phiếu của cuộc bỏ phiếu đó
+	
+Lựa chọn (Choice)
+	id: số nguyên, khóa chính 
+	poll_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Cuộc bỏ phiếu
+	content: chuỗi, nội dung của lựa chọn
+	
+Phiếu bầu (Vote)
+	id: số nguyên, khóa chính 
+	poll_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Cuộc bỏ phiếu
+	user_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Người dùng
+	choice_id: số nguyên, khóa ngoại tham chiếu đến khóa chính của bảng Lựa chọn
+	created_at: thời gian, thời điểm bỏ phiếu
+	//không thể sửa thông tin
+người tgia cuộc bỏ phiếu(Voter)
+	user_id: int, khóa ngoại tham chiếu tới bảng user
+	poll_id:int, khóa ngoại tham chiếu tới bảng poll
+	username: nhìn cho dễ phân biệt
